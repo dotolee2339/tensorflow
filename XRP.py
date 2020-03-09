@@ -29,11 +29,11 @@ num_stacked_layers = 1
 keep_prob = 1.0
 
 num = 2000
-learning_rate = 0.001
+learning_rate = 0.005
 
-save_file = './ckpt/Bitcoin_3.ckpt'
+save_file = './ckpt/XRP.ckpt'
 
-raw_data = np.loadtxt('./csv/bitcoin.csv', dtype=np.str, delimiter=',')
+raw_data = np.loadtxt('./csv/XRP.csv', dtype=np.str, delimiter=',')
 
 price = raw_data[:, 0:-2]
 price = np.array(price)
@@ -47,6 +47,17 @@ print("=" * 100)
 
 volume = raw_data[:,-2:-1]
 volume = np.array(volume)
+
+for i in range(0, len(volume)):
+    if volume[i][-1][-1] == 'k' or volume[i][-1][-1] == 'K':
+        volume[i][-1] = float(volume[i][-1][:-1]) * 1000
+    elif volume[i][-1][-1] == 'm' or volume[i][-1][-1] == 'M':
+        volume[i][-1] = float(volume[i][-1][:-1]) * 1000000
+    elif volume[i][-1][-1] == 'b' or volume[i][-1][-1] == 'B':
+        volume[i][-1] = float(volume[i][-1][:-1]) * 1000000000
+    else:
+        print("volume after : ", volume[i])
+
 volume = volume.astype(np.float)
 
 norm_volume = min_max_scaling(volume)
@@ -81,6 +92,9 @@ print("=" * 100)
 
 train_size = int(len(dataY) * 0.7)
 test_size = len(dataY) - train_size
+
+print("train_size : ", train_size)
+print("test_size : ", test_size)
 
 trainX = np.array(dataX[0:train_size])
 trainY = np.array(dataY[0:train_size])
