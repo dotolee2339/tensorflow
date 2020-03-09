@@ -195,7 +195,9 @@ plt.ylabel('rmse(root mean square error)')
 
 plt.figure(2)
 plt.plot(testY, '-r')
+plt.plot(trainY, '-g')
 plt.plot(test_predict, '-b')
+plt.plot(train_predict, '-', color='gold')
 plt.xlabel('Time')
 plt.ylabel('Price')
 
